@@ -1,0 +1,240 @@
+/* static/styles.css */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.search-container {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+}
+
+.search-input {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.search-input input {
+    flex: 1;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 4px 0 0 4px;
+    transition: border-color 0.3s;
+}
+
+.search-input input:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.search-input button {
+    padding: 12px 25px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.search-input button:hover {
+    background-color: #2980b9;
+}
+
+.search-options {
+    display: flex;
+    gap: 20px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
+.option label {
+    cursor: pointer;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.info-icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    color: #3498db;
+    cursor: help;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -125px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 14px;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+#loading {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none;
+}
+
+#results-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+#results-container h2 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+#results-count {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.result-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item:hover {
+    background-color: #f9f9f9;
+}
+
+.result-item h3 {
+    color: #2980b9;
+    margin-bottom: 10px;
+}
+
+.snippet {
+    color: #555;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.score {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+#no-results {
+    text-align: center;
+    padding: 30px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    color: #7f8c8d;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.system-info h3 {
+    color: #2c3e50;
+    margin: 15px 0 10px;
+}
+
+.system-info ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.system-info li {
+    margin-bottom: 5px;
+}
+
+.system-info p {
+    margin-bottom: 10px;
+}
