@@ -1,0 +1,144 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Information Retrieval System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Legal Information Retrieval System</h1>
+            <p>Search through Indian Legal Acts documents</p>
+        </header>
+        
+        <div class="search-container">
+            <form id="search-form">
+                <div class="search-input">
+                    <input type="text" id="query" name="query" placeholder="Enter your query (e.g., 'constitution' or 'rights AND education')" required>
+                    <button type="submit">Search</button>
+                </div>
+                
+                <div class="search-options">
+                    <div class="option">
+                        <input type="radio" id="boolean" name="search_type" value="boolean" checked>
+                        <label for="boolean">Boolean Search</label>
+                        <div class="tooltip">
+                            <span class="tooltip-text">Supports: AND, OR, NOT operators (e.g. "right AND education", "constitution NOT amendment")</span>
+                            <span class="info-icon">ⓘ</span>
+                        </div>
+                    </div>
+                    
+                    <div class="option">
+                        <input type="radio" id="vector" name="search_type" value="vector">
+                        <label for="vector">Vector Space (TF-IDF)</label>
+                        <div class="tooltip">
+                            <span class="tooltip-text">Ranks documents by relevance to your query</span>
+                            <span class="info-icon">ⓘ</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <div id="loading" class="hidden">
+            <div class="spinner"></div>
+            <p>Searching documents...</p>
+        </div>
+        
+        <div id="results-container" class="hidden">
+            <h2>Search Results</h2>
+            <div id="results-count"></div>
+            <div id="results-list"></div>
+        </div>
+        
+        <div id="no-results" class="hidden">
+            <p>No matching documents found. Try a different query.</p>
+        </div>
+        
+        <footer>
+            <div class="system-info">
+                <h3>About this Information Retrieval System</h3>
+                <ul>
+                    <li><strong>Dataset:</strong> 200 Indian Legal Acts documents</li>
+                    <li><strong>Preprocessing:</strong> Tokenization, Lowercasing, Stopword removal, Stemming</li>
+                    <li><strong>Indexing:</strong> Inverted index for efficient retrieval</li>
+                    <li><strong>Ranking:</strong> TF-IDF weighting for Vector Space Model</li>
+                </ul>
+                
+                <h3>Limitations and Improvements</h3>
+                <p>This basic IRS has several limitations:</p>
+                <ul>
+                    <li>Limited understanding of legal terminology and context</li>
+                    <li>No support for phrase queries or proximity searches</li>
+                    <li>Boolean queries require exact syntax</li>
+                    <li>No support for semantic search or query expansion</li>
+                </ul>
+                <p>Possible improvements include implementing BM25 ranking, query expansion, semantic search with embeddings, or incorporating legal ontologies.</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading spinner
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('no-results').classList.add('hidden');
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Send search request
+            fetch('/search', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading spinner
+                document.getElementById('loading').classList.add('hidden');
+                
+                const results = data.results;
+                if (results.length > 0) {
+                    // Show results
+                    document.getElementById('results-container').classList.remove('hidden');
+                    document.getElementById('results-count').textContent = `Found ${results.length} result(s)`;
+                    
+                    const resultsList = document.getElementById('results-list');
+                    resultsList.innerHTML = '';
+                    
+                    results.forEach(result => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'result-item';
+                        
+                        let resultHtml = `
+                            <h3>${result.title}</h3>
+                            <p class="snippet">${result.snippet}</p>
+                        `;
+                        
+                        if (result.score !== undefined) {
+                            resultHtml += `<p class="score">Relevance Score: ${result.score}</p>`;
+                        }
+                        
+                        resultItem.innerHTML = resultHtml;
+                        resultsList.appendChild(resultItem);
+                    });
+                } else {
+                    // Show no results message
+                    document.getElementById('no-results').classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('no-results').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
